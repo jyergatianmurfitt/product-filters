@@ -204,6 +204,26 @@ const render = () => {
     });
   }
   //Open categories list on desktop & call categories filter//
+  chooseBtn.addEventListener('click', e = () => {
+    if (!chooseBtn.classList.contains('open')) {
+     chooseBtn.classList.toggle('open');
+     options.forEach((option, i) => {
+       option.classList.add('open');
+       option.addEventListener('click', e = () => {
+         chooseBtn.innerHTML = option.textContent + ' &#9660;';
+         options.forEach((option, i) => {
+           option.classList.remove('open');
+           chooseBtn.classList.remove('open');
+         });
+       })
+     });
+   } else {
+     options.forEach((option, i) => {
+        option.classList.remove('open');
+        chooseBtn.classList.remove('open')
+      });
+   }
+  })
 
 
 
@@ -225,7 +245,6 @@ const render = () => {
       let searchedProducts = productDataWomens.filter(applySearch);
       searchedProducts.forEach((product, i) => {
         displayedProducts.push(product);
-        console.log(displayedProducts)
       });
       construct();
     }
@@ -235,6 +254,23 @@ const render = () => {
 
 
   //Category filter//
+
+  options.forEach((option, i) => {
+    option.addEventListener('click', e = () => {
+      clearFilters();
+      const applyCategory = product => {
+        const chosenCategory = new RegExp(option.textContent, 'i');
+        return chosenCategory.test(product.productUrl);
+      }
+      let categoryProducts = productDataWomens.filter(applyCategory);
+      categoryProducts.forEach((product, i) => {
+        displayedProducts.push(product);
+      })
+      construct();
+    })
+  });
+
+
 
 
   ////////////////////////Slide carousel with arrows///////////////////////
