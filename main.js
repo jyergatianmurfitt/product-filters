@@ -261,7 +261,12 @@ const render = () => {
     }
   }
   const applyPrice = product => {
-    return parseFloat(minPrice.value) < parseFloat(product.price);
+    if(minPrice.value.length > 0) {
+      return parseFloat(minPrice.value) < parseFloat(product.price);
+    } else if(maxPrice.value.length > 0) {
+      return parseFloat(maxPrice.value) > parseFloat(product.price);
+    }
+
   }
   minPrice.addEventListener('keyup', e = () => {
     clearFilters();
@@ -269,6 +274,19 @@ const render = () => {
     if(minPrice.value.length > 0) {
       let minPriceProducts = productDataWomens.filter(applyPrice);
       minPriceProducts.forEach((product, i) => {
+        displayedProducts.push(product);
+      })
+    } else {
+      displayedProducts = productDataWomens;
+    }
+    construct();
+  })
+  maxPrice.addEventListener('keyup', e = () => {
+    clearFilters();
+    validatePriceInput();
+    if(maxPrice.value.length > 0) {
+      let maxPriceProducts = productDataWomens.filter(applyPrice);
+      maxPriceProducts.forEach((product, i) => {
         displayedProducts.push(product);
       })
     } else {
