@@ -233,7 +233,6 @@ const render = () => {
     displayedProducts = [];
   }
 
-
   //Search filter//
   const applySearch = product => {
     const searchText = new RegExp(searchInput.value, 'i');
@@ -251,21 +250,50 @@ const render = () => {
   })
 
   //Price filter//
+  const validatePriceInput = () => {
+    if(!validatePrice.test(minPrice.value) || !validatePrice.test(maxPrice.value)) {
+      popover.style.opacity = '1';
+      setTimeout(function(){
+          popover.style.opacity = '0';
+      }, 2000);
+    } else {
+      popover.style.opacity = '0';
+    }
+  }
+  const applyPrice = product => {
+    return parseFloat(minPrice.value) < parseFloat(product.price);
+  }
+  minPrice.addEventListener('keyup', e = () => {
+    clearFilters();
+    validatePriceInput();
+    if(minPrice.value.length > 0) {
+      let minPriceProducts = productDataWomens.filter(applyPrice);
+      minPriceProducts.forEach((product, i) => {
+        displayedProducts.push(product);
+      })
+    } else {
+      displayedProducts = productDataWomens;
+    }
+    construct();
+  })
 
 
   //Category filter//
-
   options.forEach((option, i) => {
     option.addEventListener('click', e = () => {
       clearFilters();
-      const applyCategory = product => {
-        const chosenCategory = new RegExp(option.textContent, 'i');
-        return chosenCategory.test(product.productUrl);
+      if(option.textContent === 'All') {
+        displayedProducts = productDataWomens;
+      } else {
+        const applyCategory = product => {
+          const chosenCategory = new RegExp(option.textContent, 'i');
+          return chosenCategory.test(product.productUrl);
+        }
+        let categoryProducts = productDataWomens.filter(applyCategory);
+        categoryProducts.forEach((product, i) => {
+          displayedProducts.push(product);
+        })
       }
-      let categoryProducts = productDataWomens.filter(applyCategory);
-      categoryProducts.forEach((product, i) => {
-        displayedProducts.push(product);
-      })
       construct();
     })
   });
