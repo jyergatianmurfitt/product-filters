@@ -306,7 +306,7 @@ const render = () => {
       })
     }
     //call categories
-    if(chooseBtn.textContent !== 'Choose') {
+    if(chooseBtn.textContent.slice(0, -2) !== 'Choose') {
       let categoryProducts = displayedProducts.filter(applyCategory);
       categoryProducts.forEach((product, i) => {
         let categoryProductsIndex = displayedProducts.indexOf(product);
