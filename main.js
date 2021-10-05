@@ -124,6 +124,7 @@ const render = () => {
   const linkBtn = document.querySelector('.linkBtn');
 
   let displayedProducts = productDataWomens;
+  let category = 'choose';
 
   /////////////////////////////Render products///////////////////////////////
   const construct = () => {
@@ -179,17 +180,18 @@ const render = () => {
   })
 
   /////////////////////////////Display filters///////////////////////////////
-  //Display filters on mobile and change button text//
+  //Display & run mobile filters//
   filtersBtn.addEventListener('click', i = () => {
     if(filters.classList == "filters open") {
       filters.classList.remove('open');
       filtersBtn.innerHTML = 'Filter';
+      runFilters();
     } else {
       filters.classList.add('open');
       filtersBtn.innerHTML = 'Apply';
     }
   })
-  //Open each filter on click & call categories filter//
+  //Open each filter on click//
   if(window.innerWidth < 720) {
     openFilterBtns.forEach((button, i) => {
       button.addEventListener('click', e = () => {
@@ -202,7 +204,7 @@ const render = () => {
       })
     });
   }
-  //Open categories list on desktop & call categories filter//
+  //Open categories list on desktop//
   chooseBtn.addEventListener('click', e = () => {
     if (!chooseBtn.classList.contains('open')) {
      chooseBtn.classList.toggle('open');
@@ -239,6 +241,7 @@ const render = () => {
     minPrice.value = '';
     maxPrice.value = '';
     chooseBtn.innerHTML = 'Choose &#9660;';
+    let category = 'Choose';
   })
 
   //Search filter//
@@ -279,14 +282,13 @@ const render = () => {
 
   //Category filter//
   const applyCategory = product => {
-    const buttonText = chooseBtn.textContent.slice(0, -2);
-    const chosenCategory = new RegExp(buttonText, 'i');
+    const chosenCategory = new RegExp(category, 'i');
     return !chosenCategory.test(product.productUrl);
   }
 
 
   //Apply filters//
-  applyBtn.addEventListener('click', e = () => {
+  const runFilters = () => {
     clearAll();
     //call search
     if(searchInput.value.length > 0) {
@@ -313,7 +315,7 @@ const render = () => {
       })
     }
     //call categories
-    if(chooseBtn.textContent.slice(0, -2) !== 'Choose') {
+    if(category !== 'Choose') {
       let categoryProducts = displayedProducts.filter(applyCategory);
       categoryProducts.forEach((product, i) => {
         let categoryProductsIndex = displayedProducts.indexOf(product);
@@ -321,7 +323,17 @@ const render = () => {
       })
     }
     construct();
+  }
+
+  applyBtn.addEventListener('click', e = () => {
+    runFilters();
   })
+  options.forEach((option, i) => {
+    option.addEventListener('click', e = () => {
+      category = option.textContent;
+    })
+  });
+
 
 
 
