@@ -1,4 +1,8 @@
 /***** Global *****/
+html, body {
+  margin: 0px;
+  padding: 0px;
+}
 .text {
   font-family: sans-serif;
   letter-spacing: 2px;
@@ -18,13 +22,17 @@
 }
 
 .heading {
-  font-size: 28px;
+  font-size: 32px;
   margin-top: 2%;
   font-weight: 300;
 }
 
 .subheading {
   font-size: 22px;
+  font-weight: bolder;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  margin-bottom: 4%;
   text-align: center;
 }
 
@@ -41,9 +49,15 @@
   align-items: center;
 }
 
-.sectionBtns {
-  display: inline-flex;
-  align-items: baseline;
+.clearBtn, .applyBtn {
+  display: block;
+  margin: auto;
+  margin-top: 10px;
+}
+
+.clearBtn:hover, .applyBtn:hover {
+  color: white;
+  background-color: #ffa229;
 }
 
 .filtersBtn {
@@ -76,7 +90,7 @@ input.minPrice, input.maxPrice {
   transition: all 500ms ease-in-out;
 }
 
-.chooseBtn, .clearBtn {
+.chooseBtn, .clearBtn, .applyBtn {
   padding: 5px 15px;
   background: none;
   border-radius: 3px;
@@ -90,14 +104,16 @@ input.minPrice, input.maxPrice {
 }
 
 .optionsList {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 1);
   position: absolute;
   z-index: 2;
-  padding: 10px;
 }
 
 .option {
   display: none;
+  padding: 10px;
+  margin: 0px;
+  min-width: 200px;
 }
 
 .option.open {
@@ -245,6 +261,14 @@ input.minPrice, input.maxPrice {
 
 /***** Mobile *****/
 @media (max-width: 720px) {
+  .heading {
+    font-size: 28px;
+  }
+
+  .subheading {
+    font-size: 18px;
+  }
+
   /* Filters */
   .filtersSection {
     display: block;
@@ -258,9 +282,14 @@ input.minPrice, input.maxPrice {
   .filtersBtn.btn, .clearBtn.btn {
     display: block;
     width: 30%;
+    margin-top: 0px;
     padding: 10px 0px;
     background-color: #fff3e3;
     color: black;
+  }
+
+  .applyBtn.btn {
+    display: none;
   }
 
   .clearBtn.btn {
@@ -274,10 +303,11 @@ input.minPrice, input.maxPrice {
   .filters.open {
     display: block;
     margin: auto;
-    background-color: rgba(255, 255, 255, 0.8);
+    margin-top: 10%;
+    background-color: rgba(255, 255, 255, 1);
     position: absolute;
     z-index: 2;
-    width: 90vw;
+    width: 100vw;
   }
 
   .openFilter {
@@ -291,6 +321,11 @@ input.minPrice, input.maxPrice {
 
   .openFilter.open + div {
     display: block;
+  }
+
+  .price.openFilter.open + div {
+    display: flex;
+    justify-content: space-around;
   }
 
   .btn {
@@ -309,19 +344,23 @@ input.minPrice, input.maxPrice {
   }
 
   input {
-    font-size: 42px;
-    line-height: 100px;
-    width: 80vw;
+    font-size: 34px;
+    line-height: 60px;
+    width: 100vw;
   }
 
   input.minPrice, input.maxPrice {
-    width: 80vw;
+    width: 48vw;
+    display: flex;
+    justify-content: space-around;
+    z-index: 2;
   }
 
   .popover {
     padding: 35px;
     background-color: rgba(250, 250, 250, 0.7);
     font-size: 32px;
+    z-index: 0;
   }
 
   .chooseBtn {

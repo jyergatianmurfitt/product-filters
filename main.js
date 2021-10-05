@@ -116,6 +116,7 @@ const render = () => {
   const popover = document.querySelector('.popover');
   const errorMsg = document.querySelector('.errorMsg');
   const clearBtn = document.querySelector('.clearBtn');
+  const applyBtn = document.querySelector('.applyBtn');
 
   const overlay = document.querySelector('.overlay');
   const exit = document.querySelector('.exit');
@@ -177,9 +178,8 @@ const render = () => {
     overlay.style.display = 'none';
   })
 
-
   /////////////////////////////Display filters///////////////////////////////
-  //Display filters and change button text//
+  //Display filters on mobile and change button text//
   filtersBtn.addEventListener('click', i = () => {
     if(filters.classList == "filters open") {
       filters.classList.remove('open');
@@ -197,7 +197,6 @@ const render = () => {
         options.forEach((option, i) => {
           option.addEventListener('click', e = () => {
             button.classList.remove('open');
-            runCategories(option.innerText);
           })
         });
       })
@@ -225,29 +224,28 @@ const render = () => {
    }
   })
 
-
-
   /////////////////////////////Run filters///////////////////////////////
-  //Clear filters//
-  const clearFilters = () => {
+  //Clear all//
+  const clearAll = () => {
     displayedProducts = [];
+    productDataWomens.forEach((product, i) => {
+      displayedProducts.push(product)
+    });
   }
+  clearBtn.addEventListener('click', e = () => {
+    clearAll();
+    construct();
+    searchInput.value = '';
+    minPrice.value = '';
+    maxPrice.value = '';
+    chooseBtn.innerHTML = 'Choose &#9660;';
+  })
 
   //Search filter//
   const applySearch = product => {
     const searchText = new RegExp(searchInput.value, 'i');
-    return searchText.test(product.productTitle);
+    return !searchText.test(product.productTitle);
   }
-  searchInput.addEventListener('keyup', e = () => {
-    if(searchInput.value.length > 0) {
-      clearFilters();
-      let searchedProducts = productDataWomens.filter(applySearch);
-      searchedProducts.forEach((product, i) => {
-        displayedProducts.push(product);
-      });
-      construct();
-    }
-  })
 
   //Price filter//
   const validatePriceInput = () => {
@@ -260,61 +258,63 @@ const render = () => {
       popover.style.opacity = '0';
     }
   }
-  const applyPrice = product => {
+  const applyMinPrice = product => {
     if(minPrice.value.length > 0) {
-      return parseFloat(minPrice.value) < parseFloat(product.price);
-    } else if(maxPrice.value.length > 0) {
-      return parseFloat(maxPrice.value) > parseFloat(product.price);
+      return parseFloat(minPrice.value) > parseFloat(product.price);
     }
-
   }
-  minPrice.addEventListener('keyup', e = () => {
-    clearFilters();
-    validatePriceInput();
-    if(minPrice.value.length > 0) {
-      let minPriceProducts = productDataWomens.filter(applyPrice);
-      minPriceProducts.forEach((product, i) => {
-        displayedProducts.push(product);
-      })
-    } else {
-      displayedProducts = productDataWomens;
-    }
-    construct();
-  })
-  maxPrice.addEventListener('keyup', e = () => {
-    clearFilters();
-    validatePriceInput();
+  const applyMaxPrice = product => {
     if(maxPrice.value.length > 0) {
-      let maxPriceProducts = productDataWomens.filter(applyPrice);
-      maxPriceProducts.forEach((product, i) => {
-        displayedProducts.push(product);
-      })
-    } else {
-      displayedProducts = productDataWomens;
+      return parseFloat(maxPrice.value) < parseFloat(product.price);
     }
-    construct();
-  })
-
+  }
 
   //Category filter//
-  options.forEach((option, i) => {
-    option.addEventListener('click', e = () => {
-      clearFilters();
-      if(option.textContent === 'All') {
-        displayedProducts = productDataWomens;
-      } else {
-        const applyCategory = product => {
-          const chosenCategory = new RegExp(option.textContent, 'i');
-          return chosenCategory.test(product.productUrl);
-        }
-        let categoryProducts = productDataWomens.filter(applyCategory);
-        categoryProducts.forEach((product, i) => {
-          displayedProducts.push(product);
-        })
-      }
-      construct();
-    })
-  });
+  const applyCategory = product => {
+    const buttonText = chooseBtn.textContent.slice(0, -2);
+    const chosenCategory = new RegExp(buttonText, 'i');
+    return !chosenCategory.test(product.productUrl);
+  }
+
+
+  //Apply filters//
+  applyBtn.addEventListener('click', e = () => {
+    validatePriceInput();
+    clearAll();
+    //call search
+    if(searchInput.value.length > 0) {
+      let searchedProducts = displayedProducts.filter(applySearch);
+      searchedProducts.forEach((product, i) => {
+        let searchedProductsIndex = displayedProducts.indexOf(product);
+        displayedProducts.splice(searchedProductsIndex, 1);
+      });
+    }
+    //call min price
+    if(minPrice.value.length > 0) {
+      let minPriceProducts = displayedProducts.filter(applyMinPrice);
+      minPriceProducts.forEach((product, i) => {
+        let minPriceIndex = displayedProducts.indexOf(product);
+        displayedProducts.splice(minPriceIndex, 1);
+      })
+    }
+    //call max price
+    if(maxPrice.value.length > 0) {
+      let maxPriceProducts = displayedProducts.filter(applyMaxPrice);
+      maxPriceProducts.forEach((product, i) => {
+        let maxPriceIndex = displayedProducts.indexOf(product);
+        displayedProducts.splice(maxPriceIndex, 1);
+      })
+    }
+    //call categories
+    if(chooseBtn.textContent !== 'Choose') {
+      let categoryProducts = displayedProducts.filter(applyCategory);
+      categoryProducts.forEach((product, i) => {
+        let categoryProductsIndex = displayedProducts.indexOf(product);
+        displayedProducts.splice(categoryProductsIndex, 1);
+      })
+    }
+    construct();
+  })
 
 
 
