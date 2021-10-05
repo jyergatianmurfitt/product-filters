@@ -124,7 +124,7 @@ const render = () => {
   const linkBtn = document.querySelector('.linkBtn');
 
   let displayedProducts = productDataWomens;
-  let category = 'choose';
+  let category = 'All';
 
   /////////////////////////////Render products///////////////////////////////
   const construct = () => {
@@ -240,8 +240,8 @@ const render = () => {
     searchInput.value = '';
     minPrice.value = '';
     maxPrice.value = '';
-    chooseBtn.innerHTML = 'Choose &#9660;';
-    let category = 'Choose';
+    chooseBtn.innerHTML = 'All &#9660;';
+    let category = 'All';
   })
 
   //Search filter//
@@ -286,7 +286,6 @@ const render = () => {
     return !chosenCategory.test(product.productUrl);
   }
 
-
   //Apply filters//
   const runFilters = () => {
     clearAll();
@@ -315,7 +314,7 @@ const render = () => {
       })
     }
     //call categories
-    if(category !== 'Choose') {
+    if(category !== 'All') {
       let categoryProducts = displayedProducts.filter(applyCategory);
       categoryProducts.forEach((product, i) => {
         let categoryProductsIndex = displayedProducts.indexOf(product);
