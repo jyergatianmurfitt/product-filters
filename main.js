@@ -251,13 +251,21 @@ const render = () => {
   const validatePriceInput = () => {
     if(!validatePrice.test(minPrice.value) || !validatePrice.test(maxPrice.value)) {
       popover.style.opacity = '1';
+      popover.style.zIndex = '3';
       setTimeout(function(){
           popover.style.opacity = '0';
+          popover.style.zIndex = '0';
       }, 2000);
     } else {
       popover.style.opacity = '0';
     }
   }
+  minPrice.addEventListener('keyup', e = () => {
+    validatePriceInput();
+  });
+  maxPrice.addEventListener('keyup', e = () => {
+    validatePriceInput();
+  });
   const applyMinPrice = product => {
     if(minPrice.value.length > 0) {
       return parseFloat(minPrice.value) > parseFloat(product.price);
@@ -279,7 +287,6 @@ const render = () => {
 
   //Apply filters//
   applyBtn.addEventListener('click', e = () => {
-    validatePriceInput();
     clearAll();
     //call search
     if(searchInput.value.length > 0) {
