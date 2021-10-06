@@ -1,3 +1,4 @@
+
 const productDataWomens = [{
   productUrl: 'https://www.newlook.com/uk/womens/clothing/coats-jackets/dark-grey-faux-fur-longline-coat/p/619712403',
   imageSrc: 'https://media2.newlookassets.com/i/newlook/619712403.jpg',
@@ -125,7 +126,7 @@ const render = () => {
   const linkBtn = document.querySelector('.linkBtn');
 
   let displayedProducts = productDataWomens;
-  let category = 'All';
+  let category = ['All'];
 
   /////////////////////////////Render products///////////////////////////////
   const construct = () => {
@@ -226,7 +227,7 @@ const render = () => {
     searchInput.value = '';
     minPrice.value = '';
     maxPrice.value = '';
-    let category = 'All';
+    category = ['All'];
     options.forEach((option, i) => {
       option.classList.remove('selected');
     });
@@ -269,7 +270,7 @@ const render = () => {
 
   //Category filter//
   const applyCategory = product => {
-    const chosenCategory = new RegExp(category, 'i');
+    const chosenCategory = new RegExp(category.join("|"), 'i');
     return !chosenCategory.test(product.productUrl);
   }
 
@@ -301,7 +302,7 @@ const render = () => {
       })
     }
     //call categories
-    if(category !== 'All') {
+    if(category[0] !== 'All') {
       let categoryProducts = displayedProducts.filter(applyCategory);
       categoryProducts.forEach((product, i) => {
         let categoryProductsIndex = displayedProducts.indexOf(product);
@@ -312,11 +313,18 @@ const render = () => {
   }
 
   applyBtn.addEventListener('click', e = () => {
+    filtersSection.style.transform = 'translateX(100%)';
     runFilters();
   })
   options.forEach((option, i) => {
     option.addEventListener('click', e = () => {
-      category = option.textContent;
+      if(option.textContent == 'All') {
+        category = [];
+      }
+      if(category[0] == 'All') {
+        category.shift();
+      }
+      category.push(option.textContent);
     })
   });
 
