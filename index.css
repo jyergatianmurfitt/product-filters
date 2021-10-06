@@ -54,13 +54,13 @@ html, body {
   display: none;
   transition: transform 500ms ease-out;
   transform: translateX(100%);
-  display: block;
+  display: none;
   background-color: #ebe8dd;
   width: 30%;
   position: absolute;
   z-index: 2;
   border: 2px solid white;
-  height: 99vh;
+  min-height: 100%;
   top: 0;
   right: 0;
   transition: all 250ms ease-in-out;
@@ -95,6 +95,10 @@ input.minPrice, input.maxPrice {
   width: 100px;
 }
 
+input:focus {
+    outline: none;
+}
+
 .popover {
   opacity: 0;
   transition: opacity 250ms ease-in;
@@ -114,7 +118,7 @@ input.minPrice, input.maxPrice {
 .sectionBtns {
   display: flex;
   justify-content: space-around;
-  width: 80%;
+  width: 90%;
   margin: auto;
   margin-top: 10%;
 }
@@ -170,7 +174,7 @@ input.minPrice, input.maxPrice {
   display: flex;
   z-index: 1;
   position: absolute;
-  top: 50vh;
+  top: 45vh;
 }
 
 .leftArrow {
@@ -204,9 +208,9 @@ input.minPrice, input.maxPrice {
   display: none;
   width: 60vw;
   height: 80vh;
-  background: #ebe8dd;
+  background: rgba(250, 250, 250, 0.96);
   border-radius: 5px;
-  z-index: 3;
+  z-index: 1;
   position: absolute;
   top: 0;
   left: 0;
@@ -215,7 +219,7 @@ input.minPrice, input.maxPrice {
   align-items: center;
   margin: auto;
   padding: none;
-  border: 1px solid white;
+  border: none;
 }
 
 .exit {
@@ -231,6 +235,21 @@ input.minPrice, input.maxPrice {
 .mainPopUpContents {
   display: flex;
   justify-content: space-around;
+}
+
+.popUpText {
+  display: block;
+  margin: 20% 0px;
+  max-width: 40%;
+}
+
+.overlayTitle {
+  font-size: 20px;
+}
+
+.overlayPrice {
+  font-style: 18px;
+  font-weight: bold;
 }
 
 .overlayImg {
@@ -252,22 +271,35 @@ input.minPrice, input.maxPrice {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 3px;
-  border: 1px solid white;
   border-radius: 5px;
   max-height: 40px;
   padding: 10px 30px;
-  margin-top: 30vh;
+  margin-top: 5%;
   display: inline-flex;
   align-items: center;
+  background-color: #ebe8dd;
+  transition: transform 250ms ease-in-out;
 }
 
 .productLink:hover {
   color: black;
-  background-color: rgba(250, 250, 250, 0.5);
+  transform: scale(1.1);
+}
+
+/***** Tablet *****/
+@media (max-width: 1100px) {
+  .overlay {
+    width: 85vw;
+    height: 90vh;
+  }
 }
 
 /***** Mobile *****/
-@media (max-width: 720px) {
+@media (max-width: 860px) {
+  html, body {
+    overflow: scroll;
+  }
+
   .heading {
     font-size: 28px;
   }
@@ -279,6 +311,31 @@ input.minPrice, input.maxPrice {
   /* Filters */
   .filtersSection {
     width: 100%;
+  }
+
+  .btn {
+    font-size: 22px;
+  }
+
+  input {
+    font-size: 26px;
+  }
+
+  input.minPrice, input.maxPrice {
+    width: 160px;
+  }
+
+  .popover {
+    font-size: 18px;
+  }
+
+  .option {
+    font-size: 22px;
+    line-height: 2;
+  }
+
+  .sectionBtns {
+    margin-bottom: 5%;
   }
 
   /* Carousel */
@@ -312,17 +369,25 @@ input.minPrice, input.maxPrice {
     display: flex;
   }
 
-  /* Popup */
+  /* Pop up */
   .overlay {
-    width: 85vw;
-    height: 90vh;
+    height: 50vh;
   }
 
   .mainPopUpContents {
     flex-wrap: wrap;
   }
 
+  .popUpText {
+    max-width: 70%;
+  }
+
   .productLink {
-    margin-top: 5vh;
+    margin-top: 5%;
+    padding: 20px 40px;
+  }
+
+  .overlayImg {
+    display: none;
   }
 }

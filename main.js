@@ -122,6 +122,8 @@ const render = () => {
   const overlay = document.querySelector('.overlay');
   const exitPopup = document.querySelector('.exit');
   const exitFilters = document.querySelector('.exitFilters');
+  const overlayTitle = document.querySelector('.overlayTitle');
+  const overlayPrice = document.querySelector('.overlayPrice');
   const overlayImg = document.querySelector('.overlayImg');
   const linkBtn = document.querySelector('.linkBtn');
 
@@ -164,6 +166,8 @@ const render = () => {
 
         productContainer.addEventListener('click', i = () => {
           overlay.style.display = 'block';
+          overlayTitle.textContent = product.productTitle;
+          overlayPrice.textContent = "£" + product.price;
           overlayImg.src = product.imageSrc;
           linkBtn.href = product.productUrl;
           linkBtn.className = 'productLink';
@@ -182,16 +186,19 @@ const render = () => {
   })
 
   /////////////////////////////Display filters///////////////////////////////
-  //Display & run filters//
+  //Display filters//
   filtersBtn.addEventListener('click', i = () => {
-    filtersSection.style.transform = 'translateX(0%)';
+    filtersSection.style.display = 'block';
+    setTimeout(function(){
+      filtersSection.style.transform = 'translateX(0%)';
+    }, 0);
   })
   exitFilters.addEventListener('click', i = () => {
     filtersSection.style.transform = 'translateX(100%)';
   })
 
 
-  //Open each filter on click//
+  //Open each filter on click & select categories//
   openFilterBtns.forEach((button, i) => {
     button.addEventListener('click', e = () => {
       button.classList.toggle('open');
@@ -204,7 +211,6 @@ const render = () => {
             });
           } else if (optionNodes[0].classList == 'option text selected') {
             optionNodes[0].classList.remove('selected');
-            console.log('click')
           }
           option.classList.toggle('selected');
         })
