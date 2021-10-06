@@ -2,7 +2,10 @@
 html, body {
   margin: 0px;
   padding: 0px;
+  background-color: #ebe8dd;
+  overflow: hidden;
 }
+
 .text {
   font-family: sans-serif;
   letter-spacing: 2px;
@@ -15,7 +18,7 @@ html, body {
   border: none;
   color: black;
   background: none;
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: 2px;
   cursor: pointer;
   font-weight: 500;
@@ -24,57 +27,68 @@ html, body {
 }
 
 .heading {
-  font-size: 32px;
+  font-size: 26px;
   margin-top: 2%;
   font-weight: 300;
-  letter-spacing: 5px;
+  letter-spacing: 3px;
   text-transform: uppercase;
 }
 
 .subheading {
-  font-size: 22px;
+  font-size: 17px;
+  letter-spacing: 1px;
   font-weight: bolder;
-  margin-bottom: 2%;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 /***** Filters *****/
-.filtersSection {
+.filterBtnContainer {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  margin-right: 5%;
+  padding: 10px;
+}
+
+.filtersSection {
+  display: none;
+  transition: transform 500ms ease-out;
+  transform: translateX(100%);
+  display: block;
+  background-color: #ebe8dd;
+  width: 30%;
+  position: absolute;
+  z-index: 2;
+  border: 2px solid white;
+  height: 99vh;
+  top: 0;
+  right: 0;
+  transition: all 250ms ease-in-out;
 }
 
 .filters {
-  display: flex;
-  justify-content: space-around;
-  width: 60%;
-  align-items: center;
+  margin-top: 15%;
+  margin-left: 2%;
 }
 
-.clearBtn, .applyBtn {
-  display: block;
-  margin: auto;
-  margin-top: 10px;
+.filterWrapper {
+  margin-top: 10%;
 }
 
-.clearBtn:hover, .applyBtn:hover {
-  color: black;
-  background-color: #ebe8dd;
-  border: 1px solid #ebe8dd;
-}
-
-.filtersBtn {
+.openFilter + div {
   display: none;
 }
 
-.openFilter {
-  cursor: auto;
+.openFilter.open + div {
+  display: block;
 }
 
 input {
   font-size: 18px;
-  border: 1px solid lightgrey;
+  border: none;
   padding: 5px;
   border-radius: 5px;
+  background-color: #ebe8dd;
 }
 
 input.minPrice, input.maxPrice {
@@ -82,47 +96,37 @@ input.minPrice, input.maxPrice {
 }
 
 .popover {
-  position: absolute;
-  padding: 5px;
-  background-color: #ebe8dd;
-  margin: 0px;
   opacity: 0;
-  transition: all 500ms ease-in-out;
-}
-
-.chooseBtn, .clearBtn, .applyBtn {
-  padding: 5px 15px;
-  background: none;
-  border-radius: 3px;
-  border: 1px solid lightgrey;
-  cursor: pointer;
-  min-width: 200px;
-}
-
-.chooseBtn {
-  margin: 0px;
-}
-
-.optionsList {
-  background-color: rgba(255, 255, 255, 1);
-  position: absolute;
-  z-index: 4;
+  transition: opacity 250ms ease-in;
 }
 
 .option {
-  display: none;
-  padding: 10px;
-  margin: 0px;
-  min-width: 200px;
-}
-
-.option.open {
-  display: block;
   cursor: pointer;
+  margin: 0px;
+  padding: 10px;
+  background-color: #ebe8dd;
 }
 
-.option:hover, .option:active {
-  background-color: #ebe8dd;
+.option.selected, .option:hover {
+  background-color: rgba(250, 250, 250, 0.5);
+}
+
+.sectionBtns {
+  display: flex;
+  justify-content: space-around;
+  width: 80%;
+  margin: auto;
+  margin-top: 10%;
+}
+
+.clearBtn, .applyBtn {
+  border: 1px solid white;
+  padding: 15px 22px;
+  border-radius: 5px;
+}
+
+.clearBtn:hover, .applyBtn:hover {
+  background-color: rgba(250, 250, 250, 0.5);
 }
 
 /***** Carousel *****/
@@ -183,6 +187,7 @@ input.minPrice, input.maxPrice {
 
 .productImg {
   transform: scale(0.8);
+  border: 1px solid white;
 }
 
 .errorMsg {
@@ -210,6 +215,7 @@ input.minPrice, input.maxPrice {
   align-items: center;
   margin: auto;
   padding: none;
+  border: 1px solid white;
 }
 
 .exit {
@@ -240,14 +246,13 @@ input.minPrice, input.maxPrice {
 
 .productLink {
   color: black;
-  background-color: rgba(250, 250, 250, 0.5);
   font-size: 14px;
   text-decoration: none;
   font-family: sans-serif;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 3px;
-  border: none;
+  border: 1px solid white;
   border-radius: 5px;
   max-height: 40px;
   padding: 10px 30px;
@@ -258,7 +263,7 @@ input.minPrice, input.maxPrice {
 
 .productLink:hover {
   color: black;
-  background-color: white;
+  background-color: rgba(250, 250, 250, 0.5);
 }
 
 /***** Mobile *****/
@@ -273,130 +278,7 @@ input.minPrice, input.maxPrice {
 
   /* Filters */
   .filtersSection {
-    display: block;
-    margin: auto;
-  }
-
-  .sectionBtns {
-    display: flex;
-  }
-
-  .filtersBtn.btn, .clearBtn.btn {
-    display: block;
-    width: 30%;
-    margin-top: 0px;
-    padding: 10px 0px;
-    background: none;
-    color: black;
-    border-radius: 5px;
-  }
-
-  .filtersBtn.btn:hover, .clearBtn.btn:hover {
-    background-color: #ebe8dd;
-    border: none;
-  }
-
-  .applyBtn.btn {
-    display: none;
-  }
-
-  .clearBtn.btn {
-    margin-left: 20px;
-  }
-
-  .filters {
-    display: none;
-  }
-
-  .filters.open {
-    display: block;
-    margin: auto;
-    margin-top: 10%;
-    background-color: #ebe8dd;
-    position: absolute;
-    z-index: 2;
-    width: 100vw;
-    height: 90vh;
-  }
-
-  .openFilter {
-    margin: 5px 0px;
-    cursor: pointer;
-  }
-
-  .openFilter + div {
-    display: none;
-  }
-
-  .openFilter.open + div {
-    display: block;
-  }
-
-  .price.openFilter.open + div {
-    display: flex;
-    justify-content: space-around;
-  }
-
-  .btn {
     width: 100%;
-    background-color: #ebe8dd;
-    color: black;
-    border: none;
-    display: block;
-    padding: 30px 0px;
-    font-size: 24px;
-  }
-
-  .btn:active {
-    background-color: white;
-    color: black;
-  }
-
-  input {
-    font-size: 34px;
-    line-height: 60px;
-    width: 99vw;
-    background-color: #ebe8dd;
-    color: black;
-    border: 1px white solid;
-    border-radius: 5px;
-    text-align: center;
-  }
-
-  input.minPrice, input.maxPrice {
-    width: 48vw;
-    display: flex;
-    justify-content: space-around;
-    z-index: 2;
-  }
-
-  .popover {
-    padding: 25px;
-    background-color: rgba(250, 250, 250, 1);
-    font-size: 22px;
-    z-index: 0;
-    margin-top: 10%;
-  }
-
-  .chooseBtn {
-    display: none;
-  }
-
-  .optionsList {
-    width: 100%;
-    background-color: #ebe8dd;
-    color: black;
-  }
-
-  .option {
-    display: block;
-    line-height: 2;
-    font-size: 24px;
-    cursor: pointer;
-  }
-
-  .option:hover {
-    background-color: white;
   }
 
   /* Carousel */

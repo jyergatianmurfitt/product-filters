@@ -104,11 +104,11 @@ const productDataWomens = [{
 const render = () => {
   const products = document.querySelector('.products');
   const filtersBtn = document.querySelector('.filtersBtn');
-  const filters = document.querySelector('.filters');
+  const filtersSection = document.querySelector('.filtersSection');
   const openFilterBtns = document.querySelectorAll('.openFilter');
   const chooseBtn = document.querySelector('.chooseBtn');
+  const optionsList = document.querySelector('.optionsList');
   const options = document.querySelectorAll('.option');
-  const categoryBtn = document.querySelector('.categoryBtn');
   const searchInput = document.querySelector('.searchInput');
   const minPrice = document.querySelector('.minPrice');
   const maxPrice = document.querySelector('.maxPrice');
@@ -119,7 +119,8 @@ const render = () => {
   const applyBtn = document.querySelector('.applyBtn');
 
   const overlay = document.querySelector('.overlay');
-  const exit = document.querySelector('.exit');
+  const exitPopup = document.querySelector('.exit');
+  const exitFilters = document.querySelector('.exitFilters');
   const overlayImg = document.querySelector('.overlayImg');
   const linkBtn = document.querySelector('.linkBtn');
 
@@ -175,56 +176,41 @@ const render = () => {
   construct();
 
   //Pop-up exit//
-  exit.addEventListener('click', i = () => {
+  exitPopup.addEventListener('click', i = () => {
     overlay.style.display = 'none';
   })
 
   /////////////////////////////Display filters///////////////////////////////
-  //Display & run mobile filters//
+  //Display & run filters//
   filtersBtn.addEventListener('click', i = () => {
-    if(filters.classList == "filters open") {
-      filters.classList.remove('open');
-      filtersBtn.innerHTML = 'Filter';
-      runFilters();
-    } else {
-      filters.classList.add('open');
-      filtersBtn.innerHTML = 'Apply';
-    }
+    filtersSection.style.transform = 'translateX(0%)';
   })
+  exitFilters.addEventListener('click', i = () => {
+    filtersSection.style.transform = 'translateX(100%)';
+  })
+
+
   //Open each filter on click//
-  if(window.innerWidth < 720) {
-    openFilterBtns.forEach((button, i) => {
-      button.addEventListener('click', e = () => {
-        button.classList.toggle('open');
-        options.forEach((option, i) => {
-          option.addEventListener('click', e = () => {
-            button.classList.remove('open');
-          })
-        });
-      })
-    });
-  }
-  //Open categories list on desktop//
-  chooseBtn.addEventListener('click', e = () => {
-    if (!chooseBtn.classList.contains('open')) {
-     chooseBtn.classList.toggle('open');
-     options.forEach((option, i) => {
-       option.classList.add('open');
-       option.addEventListener('click', e = () => {
-         chooseBtn.innerHTML = option.textContent + ' &#9660;';
-         options.forEach((option, i) => {
-           option.classList.remove('open');
-           chooseBtn.classList.remove('open');
-         });
-       })
-     });
-   } else {
-     options.forEach((option, i) => {
-        option.classList.remove('open');
-        chooseBtn.classList.remove('open')
+  openFilterBtns.forEach((button, i) => {
+    button.addEventListener('click', e = () => {
+      button.classList.toggle('open');
+      options.forEach((option, i) => {
+        option.addEventListener('click', e = () => {
+          let optionNodes = [...optionsList.childNodes];
+          if(option.textContent == 'All') {
+            optionNodes.forEach((node, i) => {
+              node.classList.remove('selected');
+            });
+          } else if (optionNodes[0].classList == 'option text selected') {
+            optionNodes[0].classList.remove('selected');
+            console.log('click')
+          }
+          option.classList.toggle('selected');
+        })
       });
-   }
-  })
+    })
+  });
+
 
   /////////////////////////////Run filters///////////////////////////////
   //Clear all//
@@ -240,8 +226,11 @@ const render = () => {
     searchInput.value = '';
     minPrice.value = '';
     maxPrice.value = '';
-    chooseBtn.innerHTML = 'All &#9660;';
     let category = 'All';
+    options.forEach((option, i) => {
+      option.classList.remove('selected');
+    });
+
   })
 
   //Search filter//
@@ -254,10 +243,8 @@ const render = () => {
   const validatePriceInput = () => {
     if(!validatePrice.test(minPrice.value) || !validatePrice.test(maxPrice.value)) {
       popover.style.opacity = '1';
-      popover.style.zIndex = '3';
       setTimeout(function(){
           popover.style.opacity = '0';
-          popover.style.zIndex = '0';
       }, 2000);
     } else {
       popover.style.opacity = '0';
