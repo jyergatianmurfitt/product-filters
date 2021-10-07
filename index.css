@@ -89,6 +89,7 @@ input {
   padding: 5px;
   border-radius: 5px;
   background-color: #ebe8dd;
+  margin-left: 2%;
 }
 
 input.minPrice, input.maxPrice {
@@ -335,6 +336,8 @@ input:focus {
   }
 
   .sectionBtns {
+    display: block;
+    margin: auto;
     margin-bottom: 5%;
   }
 
