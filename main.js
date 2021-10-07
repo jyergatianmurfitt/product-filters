@@ -195,6 +195,9 @@ const render = () => {
   })
   exitFilters.addEventListener('click', i = () => {
     filtersSection.style.transform = 'translateX(100%)';
+    setTimeout(function(){
+      filtersSection.style.display = 'none';
+    }, 0);
   })
 
 
