@@ -12,9 +12,6 @@ This carousel was built as part of a wider e-commerce project.
 ## Future changes/added functions
 1./ More filtering options including colour, size and style attributes.
 
-## Installation
-To install this project simply click the green 'Code' button and download the ZIP file. Save the file to your desired directory and edit the contents in your favourite text editor.
-
 ## Contribute
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
